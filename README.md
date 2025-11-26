@@ -79,21 +79,7 @@ ER Diagram
 An Entity-Relationship (ER) diagram (erd.png) is included to illustrate the database schema. This diagram shows the blog database structure: entities (tables) like Users, Posts, Comments, etc., and their relationships
 edrawmax.com
 . ER diagrams are commonly used in requirements analysis to model the information to be stored in a database
-edrawmax.com
 . Refer to erd.png in the repository for details on tables and their relations.
-
-File Structure
-
-A simplified overview of the project files:
-
-MiniBlog/
-├─ blog_gui.py         # Main application (entry point)\n
-├─ config.py           # (Optional) Configuration for DB connection\n
-├─ models/             # (Optional) Data model classes (User, Post, Comment, etc.)\n
-├─ views/              # (Optional) GUI screens (login, home, post editor)\n
-├─ database.py         # (Optional) Database helper functions\n
-├─ erd.png             # Entity-Relationship diagram for the database\n
-└─ README.md           # Project documentation (this file)\n
 
 
 Adjust the above structure to match the actual project layout. Each module and folder contains code relevant to its purpose (e.g. models/ for data classes, views/ for GUI code).
