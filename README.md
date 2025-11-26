@@ -1,36 +1,43 @@
-MiniBlog
+# MiniBlog
 
-MiniBlog is a desktop blogging application built with Python. It uses CustomTkinter for a modern GUI and MySQL as its database backend. Users can register/login, create, edit, and delete posts, and interact via comments and likes/dislikes. An admin role provides elevated privileges (e.g. managing all posts and users). This README provides an overview, setup instructions, and additional resources.
+**MiniBlog** is a desktop blogging application built with Python. It uses **CustomTkinter** for a modern GUI and **MySQL** as its database backend. Users can register/login, create, edit, and delete posts, and interact via comments and likes/dislikes. An admin role provides elevated privileges (e.g. managing all posts and users).
 
-Key Features
+---
 
-User Accounts: Registration and login system with authentication.
+## Key Features
 
-Blog Posts: Create, edit, and delete blog posts through a GUI. Deleted posts go to a Recycle Bin for possible restoration.
+- **User Accounts**: Registration and login system with authentication.
+- **Blog Posts**: Create, edit, and delete blog posts through a GUI. Deleted posts go to a *Recycle Bin* for restoration.
+- **Comments & Reactions**: Users can comment on posts, and like or dislike content.
+- **Admin Panel**: A special administrator role that can manage (view/delete) all posts and users.
+- **Database-Backed**: All data is stored in a MySQL database (see `erd.png` for schema).
 
-Comments & Reactions: Users can comment on posts, and like or dislike posts.
+---
 
-Admin Panel: A special administrator role that can manage (view/delete) all posts and users.
+## Technology Stack
 
-Database-Backed: All data (users, posts, comments, likes) are stored in a MySQL database with a clear schema (see ER diagram below).
+- **Python 3.x** – Core programming language (recommended: Python 3.8 or later)
+- **[CustomTkinter](https://customtkinter.tomschimansky.com/)** – Modern UI library based on Tkinter
+- **[MySQL](https://www.mysql.com/)** – Relational database system
+- **MySQL Connector/Python** – For Python-MySQL interaction (`mysql-connector-python` or `PyMySQL`)
+- **Virtual Environment** (optional) – Recommended for dependency isolation
 
-Technology Stack
+---
 
-Python 3.x: The core programming language. (Recommend Python 3.8 or later.)
+## Setup Instructions
 
-CustomTkinter: A modern UI library based on Tkinter for the GUI
-customtkinter.tomschimansky.com
-. It provides customizable, consistent-looking widgets across Windows, macOS, and Linux.
+### Requirements
 
-MySQL: The relational database system for storing data. MySQL is the world’s most popular open-source database
-mysql.com
-, chosen for its reliability and performance.
+Make sure the following are installed:
 
-MySQL Connector/Python: A Python library to connect with MySQL (you can use mysql-connector-python or PyMySQL).
+- Python 3.x
+- MySQL Community Server
 
-Virtual Environment (optional): Recommended to isolate project dependencies
-w3schools.com
-.
+Install the required Python packages:
+
+
+pip install customtkinter mysql-connector-python
+
 
 Setup Instructions
 
