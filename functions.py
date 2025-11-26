@@ -4,8 +4,9 @@ from db import mydb
 
 db_client = mydb()
 
+# ---------------------- PASSWORD HELPERS ---------------------- #
 def _hash_password(raw_password: str) -> bytes:
-
+    """Hash a plaintext password using bcrypt."""
     return bcrypt.hashpw(raw_password.encode("utf-8"), bcrypt.gensalt())
 
 
@@ -14,12 +15,16 @@ def _check_password(raw_password: str, hashed_password: bytes) -> bool:
     return bcrypt.checkpw(raw_password.encode("utf-8"), hashed_password)
 
 
+# ============================================================= #
+#                           BLOG SYSTEM                         #
+# ============================================================= #
 class Blog:
     def __init__(self):
         self._user_id = None
         self._user_name = None
         self._profile_cache = None
 
+    # ----------------------- SESSION --------------------------- #
     def clear_session(self):
         self._user_id = None
         self._user_name = None
@@ -32,6 +37,78 @@ class Blog:
     @property
     def user_name(self):
         return self._user_name
+    
+    def get_user_statistics(self):
+        """Return stats for current user: post counts, comments, likes, etc."""
+        if not self._user_id:
+            return {
+                "user_posts": 0,
+                "trash_posts": 0,
+                "community_posts": 0,
+                "user_comments": 0,
+                "likes_received": 0,
+                "dislikes_received": 0
+            }
+
+        db = db_client.get_db()
+        cursor = db.cursor()
+
+        try:
+            stats = {}
+
+            cursor.execute(
+                "SELECT COUNT(*) AS cnt FROM blog WHERE created_by=%s AND dlt=0",
+                (self._user_id,)
+            )
+            stats["user_posts"] = cursor.fetchone()["cnt"]
+
+            cursor.execute(
+                "SELECT COUNT(*) AS cnt FROM blog WHERE created_by=%s AND dlt=1",
+                (self._user_id,)
+            )
+            stats["trash_posts"] = cursor.fetchone()["cnt"]
+
+            cursor.execute("SELECT COUNT(*) AS cnt FROM blog WHERE dlt=0")
+            stats["community_posts"] = cursor.fetchone()["cnt"]
+
+            cursor.execute(
+                "SELECT COUNT(*) AS cnt FROM blog_comments WHERE user_id=%s",
+                (self._user_id,)
+            )
+            stats["user_comments"] = cursor.fetchone()["cnt"]
+
+            cursor.execute(
+                """
+                SELECT 
+                    SUM(CASE WHEN br.reaction='like' THEN 1 ELSE 0 END) AS likes,
+                    SUM(CASE WHEN br.reaction='dislike' THEN 1 ELSE 0 END) AS dislikes
+                FROM blog_reactions br
+                JOIN blog b ON br.blog_id = b.id
+                WHERE b.created_by = %s
+                """,
+                (self._user_id,)
+            )
+            row = cursor.fetchone()
+            stats["likes_received"] = row["likes"] or 0
+            stats["dislikes_received"] = row["dislikes"] or 0
+
+            return stats
+
+        except Exception as e:
+            print("❌ get_user_statistics error:", e)
+            return {
+                "user_posts": 0,
+                "trash_posts": 0,
+                "community_posts": 0,
+                "user_comments": 0,
+                "likes_received": 0,
+                "dislikes_received": 0
+            }
+
+        finally:
+            cursor.close()
+
+
 
     # -------------------- ACCOUNT CREATION --------------------- #
     def create_account(self, first_name, last_name, contact, email, bio, user_name, password):
@@ -74,7 +151,7 @@ class Blog:
         finally:
             cursor.close()
 
-    # ---------LOGIN
+    # ------------------------- LOGIN --------------------------- #
     def log_in(self, user_name, password):
         db = db_client.get_db()
         cursor = db.cursor()
@@ -113,7 +190,7 @@ class Blog:
         finally:
             cursor.close()
 
-    # ----- PROFILE 
+    # ----------------------- PROFILE --------------------------- #
     def get_user_profile(self):
         if not self._user_id:
             return None
@@ -144,9 +221,9 @@ class Blog:
         finally:
             cursor.close()
 
-    
-    #------ BLOG OPERATIONS
-   
+    # ============================================================= #
+    #                        BLOG OPERATIONS                        #
+    # ============================================================= #
     def add_blog(self, title, main_blog):
         if not self._user_id:
             return False
@@ -316,9 +393,9 @@ class Blog:
         finally:
             cursor.close()
 
-    # 
-    #  COMMENTS                             #
-  
+    # ============================================================= #
+    #                          COMMENTS                             #
+    # ============================================================= #
     def add_comment(self, blog_id, text):
         if not self._user_id:
             return False
@@ -369,8 +446,9 @@ class Blog:
         finally:
             cursor.close()
 
+    # ============================================================= #
     #                         REACTIONS                             #
- 
+    # ============================================================= #
     def set_reaction(self, blog_id, reaction):
         if reaction not in ("like", "dislike"):
             return False
