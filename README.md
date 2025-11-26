@@ -87,13 +87,13 @@ File Structure
 A simplified overview of the project files:
 
 MiniBlog/
-├─ blog_gui.py         # Main application (entry point)
-├─ config.py           # (Optional) Configuration for DB connection
-├─ models/             # (Optional) Data model classes (User, Post, Comment, etc.)
-├─ views/              # (Optional) GUI screens (login, home, post editor)
-├─ database.py         # (Optional) Database helper functions
-├─ erd.png             # Entity-Relationship diagram for the database
-└─ README.md           # Project documentation (this file)
+├─ blog_gui.py         # Main application (entry point)\n
+├─ config.py           # (Optional) Configuration for DB connection\n
+├─ models/             # (Optional) Data model classes (User, Post, Comment, etc.)\n
+├─ views/              # (Optional) GUI screens (login, home, post editor)\n
+├─ database.py         # (Optional) Database helper functions\n
+├─ erd.png             # Entity-Relationship diagram for the database\n
+└─ README.md           # Project documentation (this file)\n
 
 
 Adjust the above structure to match the actual project layout. Each module and folder contains code relevant to its purpose (e.g. models/ for data classes, views/ for GUI code).
