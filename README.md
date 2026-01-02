@@ -32,6 +32,9 @@ Make sure the following are installed:
 
 - Python 3.x
 - MySQL Community Server
+- bcrypt 5.0.0
+- pymysql 1.1.2
+- customtkinter 5.2.2
 
 Install the required Python packages:
 
@@ -93,3 +96,4 @@ customtkinter.tomschimansky.com
  and relies on MySQL as the database
 mysql.com
 . The provided ER diagram follows standard design principles
+![alt text](<img/ER DIAGRAM.png>)

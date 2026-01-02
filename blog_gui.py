@@ -1,4 +1,4 @@
-# blog_gui.py
+
 import customtkinter as ctk
 from tkinter import messagebox
 from typing import Optional
@@ -10,7 +10,6 @@ ctk.set_default_color_theme("blue")
 
 
 class MiniBlogApp(ctk.CTk):
-    """Modern CustomTkinter client for the MiniBlog backend."""
 
     def __init__(self):
         super().__init__()
